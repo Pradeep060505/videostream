@@ -3,6 +3,8 @@ import cors from "cors";
 import multer from "multer";
 import { v4 as uuidv4 } from "uuid";
 import path from "path";
+import fs from "fs";
+import {} from "child_process";
 
 const app = express();
 
@@ -49,7 +51,13 @@ app.post("/upload", upload.single("file"), function (req, res) {
   const videoPath = req.file.path;
   const outputPath = `./uploads/courses/${lessonId}`;
   const hlsPath = `${outputPath}/index.m3u8`;
-  console.log("hlsPath")
+  console.log("hlsPath", hlsPath);
+
+  if (!fs.existsSync(outputPath)) {
+    fs.mkdirSync(outputPath, { recursive: true });
+  }
+
+
 });
 
 app.listen(8000, function () {
